@@ -1,0 +1,29 @@
+"""OpenAI 兼容大语言模型客户端。"""
+
+from __future__ import annotations
+
+from openai import OpenAI
+
+
+class OpenAICompatibleClient:
+    """调用支持 Chat Completions 的 OpenAI 兼容服务。"""
+
+    def __init__(self, model: str, api_key: str, base_url: str) -> None:
+        self.model = model
+        self.client = OpenAI(api_key=api_key, base_url=base_url)
+
+    def generate(self, prompt: str, system_prompt: str) -> str:
+        print("正在调用大语言模型...")
+        response = self.client.chat.completions.create(
+            model=self.model,
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": prompt},
+            ],
+            stream=False,
+        )
+        answer = response.choices[0].message.content
+        if not answer:
+            raise RuntimeError("模型返回了空响应。")
+        print("大语言模型响应成功。")
+        return answer

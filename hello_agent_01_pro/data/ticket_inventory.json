@@ -1,0 +1,13 @@
+{
+  "source": "local_mock_for_learning",
+  "default_status": "unknown",
+  "attractions": {
+    "秦始皇帝陵博物院": "sold_out",
+    "陕西历史博物馆": "sold_out",
+    "西安城墙": "available",
+    "大唐芙蓉园": "available",
+    "华清宫": "available",
+    "西安碑林博物馆": "available",
+    "大明宫国家遗址公园": "available"
+  }
+}
