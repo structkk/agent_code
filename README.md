@@ -1,7 +1,7 @@
 # Hello Agent：从零构建智能体实践集
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
-![Projects](https://img.shields.io/badge/Projects-1-blueviolet)
+![Projects](https://img.shields.io/badge/Projects-2-blueviolet)
 ![Status](https://img.shields.io/badge/Status-In%20Progress-orange)
 ![Learning](https://img.shields.io/badge/Type-Agent%20Learning-brightgreen)
 
@@ -10,7 +10,7 @@
 仓库以 Datawhale [Hello-Agents](https://github.com/datawhalechina/hello-agents) 教程为主要学习参考，将章节中的核心示例整理为结构清晰、可以独立运行的项目。每个项目均配有单独的 Markdown 文档，介绍其学习目标、工作原理、代码结构、配置方法、运行示例和常见问题。
 
 > [!NOTE]
-> 本仓库是个人学习与工程实践项目，不是 Hello-Agents 官方代码仓库。当前已完成第一个项目，后续内容将随着学习进度持续补充。
+> 本仓库是个人学习与工程实践项目，不是 Hello-Agents 官方代码仓库。当前已完成项目 01 的基础版和增强版，后续内容将随着学习进度持续补充。
 
 ## 文档导航
 
@@ -50,6 +50,7 @@ flowchart TD
 | 编号 | 项目 | 核心内容 | 状态 | 独立文档 |
 | --- | --- | --- | --- | --- |
 | 01 | 智能旅行助手 | Agent Loop、Thought–Action–Observation、工具调用、OpenAI 兼容接口 | ✅ 已完成 | [查看项目 01 文档](hello_agent_01/README.md) |
+| 01 Pro | 增强版智能旅行助手 | 偏好记忆、票务售罄回退、连续拒绝反思、流程门控 | ✅ 已完成 | [查看项目 01 Pro 文档](hello_agent_01_pro/README.md) |
 
 后续项目将在完成实现和验证后加入此表，避免提前列出尚未完成的功能。
 
@@ -100,6 +101,16 @@ Finish：生成最终旅行建议
 
 > [项目 01：基于 Thought–Action–Observation 的智能旅行助手](hello_agent_01/README.md)
 
+### 项目 01 Pro：增强版旅行助手
+
+增强版在同一教学任务上继续实现三个能力：
+
+- 使用 JSON 长期记忆保存用户兴趣和预算。
+- 查询票务状态，售罄时自动排除并搜索备选景点。
+- 连续拒绝三个推荐后，强制反思并改变推荐策略。
+
+> [项目 01 Pro：记忆、票务回退与反思](hello_agent_01_pro/README.md)
+
 ## 整体学习路径
 
 当前学习路径从最小可运行 Agent 开始，后续逐步扩展复杂能力：
@@ -120,7 +131,7 @@ Finish：生成最终旅行建议
 hello-agent/
 ├── README.md                              # 整个实践仓库的总览
 ├── .gitignore                             # 仓库级 Git 忽略规则
-└── hello_agent_01/
+├── hello_agent_01/
     ├── README.md                          # 项目 01 独立文档
     ├── requirements.txt                   # 项目 01 Python 依赖
     ├── .gitignore                         # 项目 01 忽略规则
@@ -136,6 +147,12 @@ hello-agent/
             ├── __init__.py                # 工具注册
             ├── weather.py                 # 天气查询
             └── attractions.py             # 景点搜索
+└── hello_agent_01_pro/                    # 项目 01 增强版
+    ├── README.md                          # 增强版独立文档
+    ├── main.py                            # 交互式入口
+    ├── data/                              # 模拟票务与运行时记忆
+    ├── tests/                             # 核心行为测试
+    └── travel_agent_pro/                  # 增强版源码包
 ```
 
 ## 快速开始
