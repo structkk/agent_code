@@ -1,7 +1,7 @@
-# Hello Agent：从零构建智能体_代码复现
+# Hello Agent：从零构建智能体实践集
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
-![Projects](https://img.shields.io/badge/Projects-2-blueviolet)
+![Projects](https://img.shields.io/badge/Projects-4-blueviolet)
 ![Status](https://img.shields.io/badge/Status-In%20Progress-orange)
 ![Learning](https://img.shields.io/badge/Type-Agent%20Learning-brightgreen)
 
@@ -10,13 +10,14 @@
 仓库以 Datawhale [Hello-Agents](https://github.com/datawhalechina/hello-agents) 教程为主要学习参考，将章节中的核心示例整理为结构清晰、可以独立运行的项目。每个项目均配有单独的 Markdown 文档，介绍其学习目标、工作原理、代码结构、配置方法、运行示例和常见问题。
 
 > [!NOTE]
-> 本仓库是个人学习与工程实践项目，不是 Hello-Agents 官方代码仓库。当前已完成项目 01 的基础版和增强版，后续内容将随着学习进度持续补充。
+> 本仓库是个人学习与工程实践项目，不是 Hello-Agents 官方代码仓库。当前已完成项目 01、项目 02 及其增强版本，后续内容将随着学习进度持续补充。
 
 ## 文档导航
 
 - [仓库定位](#仓库定位)
 - [项目列表](#项目列表)
 - [项目 01 简介](#项目-01-简介)
+- [项目 02 简介](#项目-02-简介)
 - [整体学习路径](#整体学习路径)
 - [仓库结构](#仓库结构)
 - [快速开始](#快速开始)
@@ -42,6 +43,10 @@ flowchart TD
     R["根目录 README.md<br/>仓库总览与项目索引"] --> D["各项目 README.md<br/>项目独立说明"]
     D --> P1["hello_agent_01<br/>智能旅行助手"]
     P1 --> C["项目源码、配置与工具"]
+    D --> P2["hello_agent_02<br/>ELIZA 规则式聊天机器人"]
+    P2 --> R2["正则规则、代词转换与响应模板"]
+    D --> P2P["hello_agent_02_pro<br/>上下文记忆增强版"]
+    P2P --> R2P["主题扩展、结构化记忆与复杂度分析"]
     D -.-> PN["后续 Agent 项目"]
 ```
 
@@ -51,6 +56,8 @@ flowchart TD
 | --- | --- | --- | --- | --- |
 | 01 | 智能旅行助手 | Agent Loop、Thought–Action–Observation、工具调用、OpenAI 兼容接口 | ✅ 已完成 | [查看项目 01 文档](hello_agent_01/README.md) |
 | 01 Pro | 增强版智能旅行助手 | 偏好记忆、票务售罄回退、连续拒绝反思、流程门控 | ✅ 已完成 | [查看项目 01 Pro 文档](hello_agent_01_pro/README.md) |
+| 02 | ELIZA 规则式聊天机器人 | 符号主义、正则模式匹配、代词转换、随机响应模板 | ✅ 已完成 | [查看项目 02 文档](hello_agent_02/README.md) |
+| 02 Pro | 增强版 ELIZA | 工作/学习/爱好等主题规则、会话记忆、组合爆炸分析 | ✅ 已完成 | [查看项目 02 Pro 文档](hello_agent_02_pro/README.md) |
 
 后续项目将在完成实现和验证后加入此表，避免提前列出尚未完成的功能。
 
@@ -111,6 +118,33 @@ Finish：生成最终旅行建议
 
 > [项目 01 Pro：记忆、票务回退与反思](hello_agent_01_pro/README.md)
 
+## 项目 02 简介
+
+### ELIZA 规则式聊天机器人
+
+第二个项目复现了早期规则式聊天机器人 ELIZA 的核心机制。系统不调用大语言模型，而是按照预先定义的正则表达式匹配用户输入，提取文本片段，完成简单的第一、第二人称转换，再从候选模板中随机生成响应。
+
+项目 02 主要展示：
+
+- 符号主义人工智能的规则驱动思想。
+- 正则表达式的模式匹配与捕获机制。
+- 分解规则、代词转换和重组模板之间的协作。
+- 规则顺序所形成的隐式优先级。
+- 通配规则对未知输入的兜底处理。
+- 无状态系统在语义理解、上下文记忆和规则扩展方面的局限。
+
+该项目仅使用 Python 标准库，不需要安装第三方依赖，也不需要配置 API Key。
+
+> [项目 02：基于规则与模式匹配的 ELIZA 聊天机器人](hello_agent_02/README.md)
+
+### 项目 02 Pro：主题扩展与上下文记忆
+
+增强版在基础 ELIZA 上新增工作、学习、爱好、压力和未来目标五类场景规则，并使用结构化会话记忆保存用户明确提到的姓名、年龄和职业。用户可以在后续对话中询问这些信息，主题响应也能够引用姓名或职业上下文。
+
+项目同时通过对话状态的笛卡尔积、自然语言序列空间和规则两两冲突数量，说明纯规则方法在开放域对话中为何面临组合爆炸和维护困难，并从能力来源、语义处理、上下文、输出空间和维护方式等维度与 ChatGPT 进行对比。
+
+> [项目 02 Pro：具备主题扩展与上下文记忆的 ELIZA](hello_agent_02_pro/README.md)
+
 ## 整体学习路径
 
 当前学习路径从最小可运行 Agent 开始，后续逐步扩展复杂能力：
@@ -147,12 +181,21 @@ hello-agent/
             ├── __init__.py                # 工具注册
             ├── weather.py                 # 天气查询
             └── attractions.py             # 景点搜索
-└── hello_agent_01_pro/                    # 项目 01 增强版
+├── hello_agent_01_pro/                    # 项目 01 增强版
     ├── README.md                          # 增强版独立文档
     ├── main.py                            # 交互式入口
     ├── data/                              # 模拟票务与运行时记忆
     ├── tests/                             # 核心行为测试
     └── travel_agent_pro/                  # 增强版源码包
+├── hello_agent_02/
+    ├── README.md                          # 项目 02 独立文档
+    ├── img.png                            # 基础版运行截图
+    └── ELIZA.py                           # ELIZA 规则式聊天程序
+└── hello_agent_02_pro/
+    ├── README.md                          # 增强版原理与复杂度分析
+    ├── ELIZA_pro.py                       # 主题规则与会话记忆
+    └── tests/
+        └── test_eliza_pro.py              # 核心行为测试
 ```
 
 ## 快速开始
@@ -200,6 +243,24 @@ MAX_STEPS = 5
 ```
 
 更完整的配置说明和错误排查请查看[项目 01 独立文档](hello_agent_01/README.md)。
+
+运行项目 02：
+
+```powershell
+cd G:\AI\hello-agent\hello_agent_02
+python .\ELIZA.py
+```
+
+项目 02 不需要第三方依赖或 API Key，详细说明请查看[项目 02 独立文档](hello_agent_02/README.md)。
+
+运行项目 02 Pro：
+
+```powershell
+cd G:\AI\hello-agent\hello_agent_02_pro
+python .\ELIZA_pro.py
+```
+
+查看记忆输入 `/memory`，清空记忆输入 `/clear-memory`，退出输入 `quit`。完整设计、测试和数学分析请查看[项目 02 Pro 独立文档](hello_agent_02_pro/README.md)。
 
 ## 文档组织规范
 
@@ -277,6 +338,7 @@ git status
 
 - [Datawhale / Hello-Agents](https://github.com/datawhalechina/hello-agents)
 - [第一章：初识智能体](https://github.com/datawhalechina/hello-agents/blob/main/docs/chapter1/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%88%9D%E8%AF%86%E6%99%BA%E8%83%BD%E4%BD%93.md)
+- [第二章：智能体发展史](https://github.com/datawhalechina/hello-agents/blob/main/docs/chapter2/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E5%8F%91%E5%B1%95%E5%8F%B2.md)
 - [OpenAI Python SDK](https://github.com/openai/openai-python)
 - [Tavily Python SDK](https://docs.tavily.com/sdk/python/quick-start)
 
