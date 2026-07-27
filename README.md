@@ -1,7 +1,7 @@
 # Hello Agent：从零构建智能体实践集
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
-![Projects](https://img.shields.io/badge/Projects-4-blueviolet)
+![Projects](https://img.shields.io/badge/Projects-5-blueviolet)
 ![Status](https://img.shields.io/badge/Status-In%20Progress-orange)
 ![Learning](https://img.shields.io/badge/Type-Agent%20Learning-brightgreen)
 
@@ -10,7 +10,7 @@
 仓库以 Datawhale [Hello-Agents](https://github.com/datawhalechina/hello-agents) 教程为主要学习参考，将章节中的核心示例整理为结构清晰、可以独立运行的项目。每个项目均配有单独的 Markdown 文档，介绍其学习目标、工作原理、代码结构、配置方法、运行示例和常见问题。
 
 > [!NOTE]
-> 本仓库是个人学习与工程实践项目，不是 Hello-Agents 官方代码仓库。当前已完成项目 01、项目 02 及其增强版本，后续内容将随着学习进度持续补充。
+> 本仓库是个人学习与工程实践项目，不是 Hello-Agents 官方代码仓库。当前已整理项目 01、项目 02 及其增强版本，并新增项目 03 的 Transformer 组件与 Qwen3 本地推理实践。后续内容将随着学习进度持续补充。
 
 ## 文档导航
 
@@ -18,6 +18,7 @@
 - [项目列表](#项目列表)
 - [项目 01 简介](#项目-01-简介)
 - [项目 02 简介](#项目-02-简介)
+- [项目 03 简介](#项目-03-简介)
 - [整体学习路径](#整体学习路径)
 - [仓库结构](#仓库结构)
 - [快速开始](#快速开始)
@@ -47,6 +48,8 @@ flowchart TD
     P2 --> R2["正则规则、代词转换与响应模板"]
     D --> P2P["hello_agent_02_pro<br/>上下文记忆增强版"]
     P2P --> R2P["主题扩展、结构化记忆与复杂度分析"]
+    D --> P3["hello_agent_03<br/>大语言模型基础"]
+    P3 --> R3["Transformer 组件与 Qwen3 本地推理"]
     D -.-> PN["后续 Agent 项目"]
 ```
 
@@ -58,8 +61,9 @@ flowchart TD
 | 01 Pro | 增强版智能旅行助手 | 偏好记忆、票务售罄回退、连续拒绝反思、流程门控 | ✅ 已完成 | [查看项目 01 Pro 文档](hello_agent_01_pro/README.md) |
 | 02 | ELIZA 规则式聊天机器人 | 符号主义、正则模式匹配、代词转换、随机响应模板 | ✅ 已完成 | [查看项目 02 文档](hello_agent_02/README.md) |
 | 02 Pro | 增强版 ELIZA | 工作/学习/爱好等主题规则、会话记忆、组合爆炸分析 | ✅ 已完成 | [查看项目 02 Pro 文档](hello_agent_02_pro/README.md) |
+| 03 | Transformer 与 Qwen3 本地推理 | 位置编码、多头注意力、前馈网络、Qwen3-0.6B 推理 | 🟡 教学实现 | [查看项目 03 文档](hello_agent_03/README.md) |
 
-后续项目将在完成实现和验证后加入此表，避免提前列出尚未完成的功能。
+后续项目将在具备可审阅代码和独立文档后加入此表；状态栏会区分完整实现与仍含待补全部分的教学实现。
 
 ## 项目 01 简介
 
@@ -145,6 +149,24 @@ Finish：生成最终旅行建议
 
 > [项目 02 Pro：具备主题扩展与上下文记忆的 ELIZA](hello_agent_02_pro/README.md)
 
+## 项目 03 简介
+
+### Transformer 核心组件与 Qwen3-0.6B 本地推理
+
+第三个项目从底层结构与实际推理两个角度理解大语言模型：
+
+- 使用 PyTorch 实现正弦位置编码。
+- 实现缩放点积多头注意力及其张量变换。
+- 实现带 ReLU 和 Dropout 的位置前馈网络。
+- 展示编码器层和解码器层中的残差连接、层归一化与交叉注意力结构。
+- 通过 ModelScope 加载 `Qwen/Qwen3-0.6B`。
+- 使用聊天模板、分词器和 `generate()` 完成本地文本生成。
+- 区分 Qwen3 的思考内容与最终回答。
+
+当前 `transformer.py` 的三个独立核心组件已经实现，但 `EncoderLayer` 和 `DecoderLayer` 的内部构造参数仍待补齐；Qwen3 脚本需要先安装 PyTorch、ModelScope、Transformers 和 Accelerate，并在首次运行时下载模型权重。
+
+> [项目 03：Transformer 核心组件与 Qwen3-0.6B 本地推理](hello_agent_03/README.md)
+
 ## 整体学习路径
 
 当前学习路径从最小可运行 Agent 开始，后续逐步扩展复杂能力：
@@ -157,7 +179,7 @@ Finish：生成最终旅行建议
 6. **多智能体协作**：让不同角色的 Agent 分工完成任务。
 7. **评估与工程化**：增加测试、日志、监控和质量评估。
 
-其中只有已实现并验证的内容才会登记为正式项目。
+项目列表只登记已经提供可审阅代码与独立文档的实践，并通过状态栏如实标记完整性和验证范围。
 
 ## 仓库结构
 
@@ -191,11 +213,15 @@ hello-agent/
     ├── README.md                          # 项目 02 独立文档
     ├── img.png                            # 基础版运行截图
     └── ELIZA.py                           # ELIZA 规则式聊天程序
-└── hello_agent_02_pro/
+├── hello_agent_02_pro/
     ├── README.md                          # 增强版原理与复杂度分析
     ├── ELIZA_pro.py                       # 主题规则与会话记忆
     └── tests/
         └── test_eliza_pro.py              # 核心行为测试
+└── hello_agent_03/
+    ├── README.md                          # LLM 原理、安装与运行说明
+    ├── transformer.py                     # Transformer 核心组件
+    └── qwen3-0.6B.py                      # Qwen3-0.6B 本地推理
 ```
 
 ## 快速开始
@@ -262,6 +288,17 @@ python .\ELIZA_pro.py
 
 查看记忆输入 `/memory`，清空记忆输入 `/clear-memory`，退出输入 `quit`。完整设计、测试和数学分析请查看[项目 02 Pro 独立文档](hello_agent_02_pro/README.md)。
 
+项目 03 包含需要安装深度学习依赖的本地模型实践：
+
+```powershell
+cd G:\AI\hello-agent\hello_agent_03
+py -3.10 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install --upgrade pip
+.\.venv\Scripts\python.exe -m pip install "torch>=2.6" modelscope "transformers>=4.51.0" accelerate safetensors
+```
+
+建议首次运行前将 `qwen3-0.6B.py` 中的 `max_new_tokens` 从 `32768` 调低到 `512`。完整的组件状态、硬件说明和错误排查请查看[项目 03 独立文档](hello_agent_03/README.md)。
+
 ## 文档组织规范
 
 为了让后续项目保持一致，文档采用以下规则：
@@ -271,7 +308,7 @@ python .\ELIZA_pro.py
 - 每个项目目录包含自己的 `README.md`、依赖、配置模板和源码。
 - 每份项目文档至少包含项目背景、目标、架构、目录、安装、配置、运行、示例、FAQ 和参考来源。
 - 总览文档与项目文档之间保留双向链接，方便在 GitHub 中浏览。
-- 只有已经实现并验证的项目才加入根目录项目列表。
+- 只有具备可审阅代码和独立文档的项目才加入根目录项目列表，并如实标记实现与验证状态。
 
 建议后续项目文档沿用以下模板：
 
@@ -339,6 +376,7 @@ git status
 - [Datawhale / Hello-Agents](https://github.com/datawhalechina/hello-agents)
 - [第一章：初识智能体](https://github.com/datawhalechina/hello-agents/blob/main/docs/chapter1/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%88%9D%E8%AF%86%E6%99%BA%E8%83%BD%E4%BD%93.md)
 - [第二章：智能体发展史](https://github.com/datawhalechina/hello-agents/blob/main/docs/chapter2/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E5%8F%91%E5%B1%95%E5%8F%B2.md)
+- [第三章：大语言模型基础](https://github.com/datawhalechina/hello-agents/blob/main/docs/chapter3/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80.md)
 - [OpenAI Python SDK](https://github.com/openai/openai-python)
 - [Tavily Python SDK](https://docs.tavily.com/sdk/python/quick-start)
 
