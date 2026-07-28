@@ -1,7 +1,7 @@
 # Hello Agent：从零构建智能体实践集
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
-![Projects](https://img.shields.io/badge/Projects-5-blueviolet)
+![Projects](https://img.shields.io/badge/Projects-7-blueviolet)
 ![Status](https://img.shields.io/badge/Status-In%20Progress-orange)
 ![Learning](https://img.shields.io/badge/Type-Agent%20Learning-brightgreen)
 
@@ -10,7 +10,7 @@
 仓库以 Datawhale [Hello-Agents](https://github.com/datawhalechina/hello-agents) 教程为主要学习参考，将章节中的核心示例整理为结构清晰、可以独立运行的项目。每个项目均配有单独的 Markdown 文档，介绍其学习目标、工作原理、代码结构、配置方法、运行示例和常见问题。
 
 > [!NOTE]
-> 本仓库是个人学习与工程实践项目，不是 Hello-Agents 官方代码仓库。当前已整理项目 01、项目 02 及其增强版本，并新增项目 03 的 Transformer 组件与 Qwen3 本地推理实践。后续内容将随着学习进度持续补充。
+> 本仓库是个人学习与工程实践项目，不是 Hello-Agents 官方代码仓库。当前已整理项目 01、项目 02 及其增强版本、项目 03 的 Transformer 与本地模型实践，以及项目 04 的三种经典智能体范式和混合范式增强实现。后续内容将随着学习进度持续补充。
 
 ## 文档导航
 
@@ -19,6 +19,7 @@
 - [项目 01 简介](#项目-01-简介)
 - [项目 02 简介](#项目-02-简介)
 - [项目 03 简介](#项目-03-简介)
+- [项目 04 简介](#项目-04-简介)
 - [整体学习路径](#整体学习路径)
 - [仓库结构](#仓库结构)
 - [快速开始](#快速开始)
@@ -50,6 +51,10 @@ flowchart TD
     P2P --> R2P["主题扩展、结构化记忆与复杂度分析"]
     D --> P3["hello_agent_03<br/>大语言模型基础"]
     P3 --> R3["Transformer 组件与 Qwen3 本地推理"]
+    D --> P4["hello_agent_04<br/>经典智能体范式"]
+    P4 --> R4["ReAct、Plan-and-Solve 与 Reflection"]
+    D --> P4P["hello_agent_04_pro<br/>混合范式智能体"]
+    P4P --> R4P["结构化规划、工具执行、反思与恢复"]
     D -.-> PN["后续 Agent 项目"]
 ```
 
@@ -62,6 +67,8 @@ flowchart TD
 | 02 | ELIZA 规则式聊天机器人 | 符号主义、正则模式匹配、代词转换、随机响应模板 | ✅ 已完成 | [查看项目 02 文档](hello_agent_02/README.md) |
 | 02 Pro | 增强版 ELIZA | 工作/学习/爱好等主题规则、会话记忆、组合爆炸分析 | ✅ 已完成 | [查看项目 02 Pro 文档](hello_agent_02_pro/README.md) |
 | 03 | Transformer 与 Qwen3 本地推理 | 位置编码、多头注意力、前馈网络、Qwen3-0.6B 推理 | 🟡 教学实现 | [查看项目 03 文档](hello_agent_03/README.md) |
+| 04 | 经典智能体范式 | ReAct、Plan-and-Solve、Reflection、工具调用与短期轨迹 | ✅ 已完成 | [查看项目 04 文档](hello_agent_04/README.md) |
+| 04 Pro | 混合范式智能体 | 结构化规划、逐步 ReAct、步骤反思、重试、重规划与安全降级 | ✅ 离线流程已验证 | [查看项目 04 Pro 文档](hello_agent_04_pro/README.md) |
 
 后续项目将在具备可审阅代码和独立文档后加入此表；状态栏会区分完整实现与仍含待补全部分的教学实现。
 
@@ -167,6 +174,44 @@ Finish：生成最终旅行建议
 
 > [项目 03：Transformer 核心组件与 Qwen3-0.6B 本地推理](hello_agent_03/README.md)
 
+## 项目 04 简介
+
+### ReAct、Plan-and-Solve 与 Reflection
+
+第四个项目对应 Hello-Agents 第四章“智能体经典范式构建”，分别实现三种经典工作流：
+
+- **ReAct**：在 Thought、Action 和 Observation 之间循环，并通过 SerpApi 获取外部实时信息。
+- **Plan-and-Solve**：先把复杂问题拆成结构化步骤，再结合历史结果逐步执行。
+- **Reflection**：保存初始代码和评审反馈，通过“执行—反思—优化”循环改进算法。
+
+三个示例共享 OpenAI 兼容模型客户端，能够直观比较反应式执行、全局规划和事后修正
+三种策略的职责边界。项目文档还记录了模型 404、解释器依赖不一致、SerpApi 导入、
+输出截断和 Action 解析失败等常见问题。
+
+> [项目 04：ReAct、Plan-and-Solve 与 Reflection 经典智能体范式](hello_agent_04/README.md)
+
+### 项目 04 Pro：混合范式智能体
+
+增强版将三种范式组合为共享状态的闭环架构：
+
+```text
+Plan-and-Solve 生成并验证计划
+        ↓
+ReAct 逐步骤调用工具
+        ↓
+Reflection 决定通过、重试、重规划或阻断
+        ↓
+答案综合与最终审查
+```
+
+示例任务是制定西安历史文化主题两日行程。系统需要查询动态门票和预约信息、控制预算、
+组织地点顺序，并为售罄、闭馆和查询不到等情况准备备选方案。
+
+Pro 版本增加 JSON 格式修复、计划验证、工具与 LLM 调用预算、跨重试 Observation
+复用、同一地点两次无结果后自动跳过，以及任务阻断时保留已完成结果等工程机制。
+
+> [项目 04 Pro：ReAct、Plan-and-Solve 与 Reflection 混合范式智能体](hello_agent_04_pro/README.md)
+
 ## 整体学习路径
 
 当前学习路径从最小可运行 Agent 开始，后续逐步扩展复杂能力：
@@ -218,10 +263,21 @@ hello-agent/
     ├── ELIZA_pro.py                       # 主题规则与会话记忆
     └── tests/
         └── test_eliza_pro.py              # 核心行为测试
-└── hello_agent_03/
+├── hello_agent_03/
     ├── README.md                          # LLM 原理、安装与运行说明
     ├── transformer.py                     # Transformer 核心组件
     └── qwen3-0.6B.py                      # Qwen3-0.6B 本地推理
+├── hello_agent_04/
+│   ├── README.md                          # 三种经典范式的独立文档
+│   ├── HelloAgentsLLM.py                  # OpenAI 兼容模型客户端
+│   ├── React.py                           # ReAct 与 SerpApi 搜索
+│   ├── Plan-and-solve.py                  # 先规划、后执行
+│   └── Reflection.py                      # 执行、反思与优化
+└── hello_agent_04_pro/
+    ├── README.md                          # 混合架构主文档
+    ├── HYBRID_AGENT_USAGE.md              # 实现与迁移补充说明
+    ├── HybridAgent.py                     # 混合智能体编排器
+    └── hybrid_travel_demo.py              # 西安两日旅行示例
 ```
 
 ## 快速开始
@@ -299,6 +355,30 @@ py -3.10 -m venv .venv
 
 建议首次运行前将 `qwen3-0.6B.py` 中的 `max_new_tokens` 从 `32768` 调低到 `512`。完整的组件状态、硬件说明和错误排查请查看[项目 03 独立文档](hello_agent_03/README.md)。
 
+运行项目 04 前，安装模型和搜索依赖，并在本地 `hello_agent_04/.env` 中配置模型服务与
+SerpApi：
+
+```powershell
+cd G:\AI\hello-agent\hello_agent_04
+G:\conda_envs\agent\python.exe -m pip install --upgrade openai python-dotenv serpapi
+G:\conda_envs\agent\python.exe .\React.py
+G:\conda_envs\agent\python.exe .\Plan-and-solve.py
+G:\conda_envs\agent\python.exe .\Reflection.py
+```
+
+完整配置、运行方法和三种范式对比请查看[项目 04 独立文档](hello_agent_04/README.md)。
+
+项目 04 Pro 当前复用基础项目中的模型客户端和搜索函数。从仓库根目录运行：
+
+```powershell
+cd G:\AI\hello-agent
+$env:PYTHONPATH = "$PWD\hello_agent_04;$PWD\hello_agent_04_pro"
+G:\conda_envs\agent\python.exe .\hello_agent_04_pro\hybrid_travel_demo.py
+```
+
+完整架构、降级规则、运行统计与问题排查请查看
+[项目 04 Pro 独立文档](hello_agent_04_pro/README.md)。
+
 ## 文档组织规范
 
 为了让后续项目保持一致，文档采用以下规则：
@@ -351,7 +431,9 @@ py -3.10 -m venv .venv
 > [!CAUTION]
 > 不要将真实 API Key 上传到公开 GitHub 仓库。
 
-各项目可以在本地源码 `config.py` 中填写密钥，但该文件必须被 `.gitignore` 排除。GitHub 中只保留不含真实密钥的 `config.example.py`。
+项目 01 使用本地 `config.py` 保存密钥，项目 04 使用本地 `.env` 保存密钥；这些文件
+都必须被 `.gitignore` 排除。GitHub 中只保留不含真实密钥的配置模板或 README
+配置说明。
 
 提交前请运行：
 
@@ -362,6 +444,7 @@ git status
 确认待提交列表中不包含：
 
 - 任意项目的 `config.py`
+- 任意项目的 `.env`
 - `.venv/`
 - `__pycache__/`
 - `.idea/`
@@ -377,6 +460,7 @@ git status
 - [第一章：初识智能体](https://github.com/datawhalechina/hello-agents/blob/main/docs/chapter1/%E7%AC%AC%E4%B8%80%E7%AB%A0%20%E5%88%9D%E8%AF%86%E6%99%BA%E8%83%BD%E4%BD%93.md)
 - [第二章：智能体发展史](https://github.com/datawhalechina/hello-agents/blob/main/docs/chapter2/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E5%8F%91%E5%B1%95%E5%8F%B2.md)
 - [第三章：大语言模型基础](https://github.com/datawhalechina/hello-agents/blob/main/docs/chapter3/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80.md)
+- [第四章：智能体经典范式构建](https://github.com/datawhalechina/hello-agents/blob/main/docs/chapter4/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E7%BB%8F%E5%85%B8%E8%8C%83%E5%BC%8F%E6%9E%84%E5%BB%BA.md)
 - [OpenAI Python SDK](https://github.com/openai/openai-python)
 - [Tavily Python SDK](https://docs.tavily.com/sdk/python/quick-start)
 
