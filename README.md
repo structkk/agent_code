@@ -1,7 +1,7 @@
 # Hello Agent：从零构建智能体实践集
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
-![Projects](https://img.shields.io/badge/Projects-7-blueviolet)
+![Projects](https://img.shields.io/badge/Projects-8-blueviolet)
 ![Status](https://img.shields.io/badge/Status-In%20Progress-orange)
 ![Learning](https://img.shields.io/badge/Type-Agent%20Learning-brightgreen)
 
@@ -10,7 +10,7 @@
 仓库以 Datawhale [Hello-Agents](https://github.com/datawhalechina/hello-agents) 教程为主要学习参考，将章节中的核心示例整理为结构清晰、可以独立运行的项目。每个项目均配有单独的 Markdown 文档，介绍其学习目标、工作原理、代码结构、配置方法、运行示例和常见问题。
 
 > [!NOTE]
-> 本仓库是个人学习与工程实践项目，不是 Hello-Agents 官方代码仓库。当前已整理项目 01、项目 02 及其增强版本、项目 03 的 Transformer 与本地模型实践，以及项目 04 的三种经典智能体范式和混合范式增强实现。后续内容将随着学习进度持续补充。
+> 本仓库是个人学习与工程实践项目，不是 Hello-Agents 官方代码仓库。当前已整理项目 01、项目 02 及其增强版本、项目 03 的 Transformer 与本地模型实践、项目 04 的经典智能体范式及增强实现，以及项目 06 的 AutoGen、AgentScope、CAMEL 与 LangGraph 框架实践。后续内容将随着学习进度持续补充。
 
 ## 文档导航
 
@@ -20,6 +20,7 @@
 - [项目 02 简介](#项目-02-简介)
 - [项目 03 简介](#项目-03-简介)
 - [项目 04 简介](#项目-04-简介)
+- [项目 06 简介](#项目-06-简介)
 - [整体学习路径](#整体学习路径)
 - [仓库结构](#仓库结构)
 - [快速开始](#快速开始)
@@ -55,6 +56,11 @@ flowchart TD
     P4 --> R4["ReAct、Plan-and-Solve 与 Reflection"]
     D --> P4P["hello_agent_04_pro<br/>混合范式智能体"]
     P4P --> R4P["结构化规划、工具执行、反思与恢复"]
+    D --> P6["hello_agent_06<br/>主流智能体框架实践"]
+    P6 --> A6["AutoGen<br/>轮询与动态路由团队"]
+    P6 --> S6["AgentScope<br/>三国狼人杀"]
+    P6 --> C6["CAMEL<br/>双角色协作"]
+    P6 --> L6["LangGraph<br/>状态图搜索助手"]
     D -.-> PN["后续 Agent 项目"]
 ```
 
@@ -69,6 +75,7 @@ flowchart TD
 | 03 | Transformer 与 Qwen3 本地推理 | 位置编码、多头注意力、前馈网络、Qwen3-0.6B 推理 | 🟡 教学实现 | [查看项目 03 文档](hello_agent_03/README.md) |
 | 04 | 经典智能体范式 | ReAct、Plan-and-Solve、Reflection、工具调用与短期轨迹 | ✅ 已完成 | [查看项目 04 文档](hello_agent_04/README.md) |
 | 04 Pro | 混合范式智能体 | 结构化规划、逐步 ReAct、步骤反思、重试、重规划与安全降级 | ✅ 离线流程已验证 | [查看项目 04 Pro 文档](hello_agent_04_pro/README.md) |
+| 06 | 框架开发实践 | AutoGen、AgentScope、CAMEL、LangGraph、多智能体协作与状态图编排 | 🟡 代码与离线检查已完成 | [查看项目 06 文档索引](#项目-06-简介) |
 
 后续项目将在具备可审阅代码和独立文档后加入此表；状态栏会区分完整实现与仍含待补全部分的教学实现。
 
@@ -212,6 +219,35 @@ Pro 版本增加 JSON 格式修复、计划验证、工具与 LLM 调用预算�
 
 > [项目 04 Pro：ReAct、Plan-and-Solve 与 Reflection 混合范式智能体](hello_agent_04_pro/README.md)
 
+## 项目 06 简介
+
+### 主流智能体框架开发实践
+
+第六个项目围绕不同智能体框架的设计理念和编排方式展开，包括五个可独立阅读的示例：
+
+| 示例 | 协作/控制方式 | 应用场景 | 文档 |
+| --- | --- | --- | --- |
+| AutoGen | `RoundRobinGroupChat` 固定轮询 | 产品经理、工程师、审查员和用户代理协作开发 | [AutoGen 基础版](hello_agent_06/AUTOGEN.md) |
+| AutoGen Pro | `SelectorGroupChat` 与确定性动态路由 | 需求回退、代码修复、自动 QA 和对话监控 | [AutoGen 增强版](hello_agent_06/AUTOGEN_PRO.md) |
+| AgentScope | 消息中心、顺序/并行流水线和结构化动作 | 六人三国狼人杀多智能体模拟 | [AgentScope](hello_agent_06/AGENTSCOPE.md) |
+| CAMEL | 双智能体角色扮演 | 心理学家与作家协作创作电子书 | [CAMEL](hello_agent_06/CAMEL.md) |
+| LangGraph | 显式状态、节点和有向边 | 理解—搜索—回答三阶段智能搜索 | [LangGraph](hello_agent_06/LANGGRAPH.md) |
+
+这些实现体现了三类不同的编排思想：
+
+```text
+对话驱动：AutoGen、CAMEL
+消息与多智能体工程：AgentScope
+显式状态图控制：LangGraph
+```
+
+AutoGen Pro 在章节基础案例之上进一步实现动态回退机制：审查员发现需求变更时返回产品
+经理，发现代码缺陷时返回工程师，审查通过后进入独立 QA；质量监控员则负责检测偏题、
+重复循环和非法路由。
+
+项目 06 需要配置 OpenAI 兼容模型服务，其中 LangGraph 还需要 Tavily 密钥。所有 `.env`
+均为本地配置，不应上传 GitHub。
+
 ## 整体学习路径
 
 当前学习路径从最小可运行 Agent 开始，后续逐步扩展复杂能力：
@@ -273,11 +309,27 @@ hello-agent/
 │   ├── React.py                           # ReAct 与 SerpApi 搜索
 │   ├── Plan-and-solve.py                  # 先规划、后执行
 │   └── Reflection.py                      # 执行、反思与优化
-└── hello_agent_04_pro/
+├── hello_agent_04_pro/
     ├── README.md                          # 混合架构主文档
     ├── HYBRID_AGENT_USAGE.md              # 实现与迁移补充说明
     ├── HybridAgent.py                     # 混合智能体编排器
     └── hybrid_travel_demo.py              # 西安两日旅行示例
+└── hello_agent_06/
+    ├── AUTOGEN.md                         # AutoGen 固定轮询团队文档
+    ├── AUTOGEN_PRO.md                     # 动态回退与 QA 增强版文档
+    ├── AGENTSCOPE.md                      # AgentScope 三国狼人杀文档
+    ├── CAMEL.md                           # CAMEL 双角色协作文档
+    ├── LANGGRAPH.md                       # LangGraph 搜索工作流文档
+    ├── AutoGen.py                         # AutoGen 基础软件团队
+    ├── AutoGen_pro.py                     # 动态路由增强团队
+    ├── Camel.py                           # 心理学家与作家角色扮演
+    ├── LangGraph.py                       # 三节点智能搜索助手
+    └── AgentScope/
+        ├── main_cn.py                     # 三国狼人杀入口
+        ├── game_roles.py                  # 游戏角色配置
+        ├── prompt_cn.py                   # 中文角色提示词
+        ├── structured_output_cn.py        # Pydantic 结构化动作
+        └── utils_cn.py                    # 主持人和游戏工具
 ```
 
 ## 快速开始
@@ -379,6 +431,45 @@ G:\conda_envs\agent\python.exe .\hello_agent_04_pro\hybrid_travel_demo.py
 完整架构、降级规则、运行统计与问题排查请查看
 [项目 04 Pro 独立文档](hello_agent_04_pro/README.md)。
 
+运行项目 06 前，建议使用项目当前验证过的依赖版本：
+
+```powershell
+cd G:\AI\hello-agent\hello_agent_06
+G:\conda_envs\agent\python.exe -m pip install `
+  "autogen-agentchat==0.7.5" `
+  "autogen-ext[openai]==0.7.5" `
+  "agentscope==1.0.21" `
+  "camel-ai==0.2.75" `
+  "langgraph==1.0.0a3" `
+  "langchain-openai==0.3.33" `
+  "tavily-python==0.7.26" `
+  "python-dotenv>=1.0.0" `
+  "colorama>=0.4.6"
+```
+
+在 `hello_agent_06/.env` 配置 AutoGen、CAMEL 和 LangGraph 所需变量；AgentScope 使用
+`hello_agent_06/AgentScope/.env`：
+
+```dotenv
+LLM_MODEL_ID=模型ID
+LLM_API_KEY=你的模型API密钥
+LLM_BASE_URL=OpenAI兼容接口地址
+TAVILY_API_KEY=你的Tavily密钥
+```
+
+分别运行：
+
+```powershell
+G:\conda_envs\agent\python.exe .\AutoGen.py
+G:\conda_envs\agent\python.exe .\AutoGen_pro.py
+G:\conda_envs\agent\python.exe .\Camel.py
+G:\conda_envs\agent\python.exe .\LangGraph.py
+G:\conda_envs\agent\python.exe .\AgentScope\main_cn.py
+```
+
+详细角色、工作流、版本兼容性和错误排查请查看[项目 06 简介](#项目-06-简介)中的五份
+独立文档。
+
 ## 文档组织规范
 
 为了让后续项目保持一致，文档采用以下规则：
@@ -461,6 +552,7 @@ git status
 - [第二章：智能体发展史](https://github.com/datawhalechina/hello-agents/blob/main/docs/chapter2/%E7%AC%AC%E4%BA%8C%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E5%8F%91%E5%B1%95%E5%8F%B2.md)
 - [第三章：大语言模型基础](https://github.com/datawhalechina/hello-agents/blob/main/docs/chapter3/%E7%AC%AC%E4%B8%89%E7%AB%A0%20%E5%A4%A7%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%9F%BA%E7%A1%80.md)
 - [第四章：智能体经典范式构建](https://github.com/datawhalechina/hello-agents/blob/main/docs/chapter4/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E7%BB%8F%E5%85%B8%E8%8C%83%E5%BC%8F%E6%9E%84%E5%BB%BA.md)
+- [第六章：框架开发实践](https://github.com/datawhalechina/hello-agents/blob/main/docs/chapter6/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5.md)
 - [OpenAI Python SDK](https://github.com/openai/openai-python)
 - [Tavily Python SDK](https://docs.tavily.com/sdk/python/quick-start)
 
