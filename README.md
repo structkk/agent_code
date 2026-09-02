@@ -1,7 +1,7 @@
 # Hello Agent：从零构建智能体实践集
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
-![Projects](https://img.shields.io/badge/Projects-9-blueviolet)
+![Projects](https://img.shields.io/badge/Projects-10-blueviolet)
 ![Status](https://img.shields.io/badge/Status-In%20Progress-orange)
 ![Learning](https://img.shields.io/badge/Type-Agent%20Learning-brightgreen)
 
@@ -10,7 +10,7 @@
 仓库以 Datawhale [Hello-Agents](https://github.com/datawhalechina/hello-agents) 教程为主要学习参考，将章节中的核心示例整理为结构清晰、可以独立运行的项目。每个项目均配有单独的 Markdown 文档，介绍其学习目标、工作原理、代码结构、配置方法、运行示例和常见问题。
 
 > [!NOTE]
-> 本仓库是个人学习与工程实践项目，不是 Hello-Agents 官方代码仓库。当前已整理项目 01、项目 02 及其增强版本、项目 03 的 Transformer 与本地模型实践、项目 04 的经典智能体范式及增强实现、项目 06 的 AutoGen、AgentScope、CAMEL 与 LangGraph 框架实践，以及项目 07 的 HelloAgents 自定义框架扩展。后续内容将随着学习进度持续补充。
+> 本仓库是个人学习与工程实践项目，不是 Hello-Agents 官方代码仓库。当前已整理项目 01、项目 02 及其增强版本、项目 03 的 Transformer 与本地模型实践、项目 04 的经典智能体范式及增强实现、项目 06 的 AutoGen、AgentScope、CAMEL 与 LangGraph 框架实践、项目 07 的 HelloAgents 自定义框架扩展，以及项目 08 的记忆、RAG 与 PDF 学习助手。后续内容将随着学习进度持续补充。
 
 ## 文档导航
 
@@ -22,6 +22,7 @@
 - [项目 04 简介](#项目-04-简介)
 - [项目 06 简介](#项目-06-简介)
 - [项目 07 简介](#项目-07-简介)
+- [项目 08 简介](#项目-08-简介)
 - [整体学习路径](#整体学习路径)
 - [仓库结构](#仓库结构)
 - [快速开始](#快速开始)
@@ -64,6 +65,8 @@ flowchart TD
     P6 --> L6["LangGraph<br/>状态图搜索助手"]
     D --> P7["helloagent<br/>自定义智能体框架扩展"]
     P7 --> R7["统一模型接口、四种 Agent 范式与工具系统"]
+    D --> P8["helloagent_08<br/>记忆与检索"]
+    P8 --> R8["Memory、RAG 与 PDF 学习助手"]
     D -.-> PN["后续 Agent 项目"]
 ```
 
@@ -80,6 +83,7 @@ flowchart TD
 | 04 Pro | 混合范式智能体 | 结构化规划、逐步 ReAct、步骤反思、重试、重规划与安全降级 | ✅ 离线流程已验证 | [查看项目 04 Pro 文档](hello_agent_04_pro/README.md) |
 | 06 | 框架开发实践 | AutoGen、AgentScope、CAMEL、LangGraph、多智能体协作与状态图编排 | 🟡 代码与离线检查已完成 | [查看项目 06 文档索引](#项目-06-简介) |
 | 07 | 自定义智能体框架扩展 | HelloAgentsLLM、SimpleAgent、ReAct、Reflection、Plan-and-Solve 与工具注册 | 🟡 教学实现与离线检查已完成 | [查看项目 07 文档](helloagent/README.md) |
+| 08 | 记忆与检索 | MemoryTool、RAGTool、Qdrant、Neo4j、MQE、HyDE 与 PDF 学习助手 | 🟡 语法与界面构建已验证 | [查看项目 08 文档](helloagent_08/README.md) |
 
 后续项目将在具备可审阅代码和独立文档后加入此表；状态栏会区分完整实现与仍含待补全部分的教学实现。
 
@@ -271,6 +275,26 @@ FunctionCallAgent、工具链和异步执行器等第七章后续能力尚未包
 
 > [项目 07：基于 HelloAgents 的自定义智能体框架扩展](helloagent/README.md)
 
+## 项目 08 简介
+
+### 记忆系统、RAG 与智能 PDF 学习助手
+
+第八个项目对应 Hello-Agents 第八章“记忆与检索”，为智能体补充长期记忆和外部知识
+检索能力。当前目录包含 Memory、RAG 和组合 Agent 的最小示例，并实现了一个基于
+Gradio 的 PDF 学习助手：
+
+- 使用 `MemoryTool` 添加、搜索和汇总工作记忆、情景记忆与语义记忆。
+- 使用 `RAGTool` 写入文本或 PDF，完成向量搜索、文档问答和知识库统计。
+- 使用 Qdrant 保存向量索引，使用 Neo4j 支持语义关系存储。
+- 通过 MQE 多查询扩展与 HyDE 假设文档嵌入增强检索。
+- 通过 `user_id` 和 RAG 命名空间隔离不同用户的数据。
+- 在 Gradio 页面中提供 PDF 上传、智能问答、学习笔记、历史回顾和报告生成。
+
+四个源码文件已通过语法检查，Gradio 界面已完成无服务启动的构建验证；真实 Memory、
+RAG 和 PDF 问答仍依赖本地配置的模型、Embedding、Qdrant、Neo4j 与网络环境。
+
+> [项目 08：记忆系统、RAG 与智能 PDF 学习助手](helloagent_08/README.md)
+
 ## 整体学习路径
 
 当前学习路径从最小可运行 Agent 开始，后续逐步扩展复杂能力：
@@ -278,11 +302,12 @@ FunctionCallAgent、工具链和异步执行器等第七章后续能力尚未包
 1. **基础 Agent Loop**：理解感知、思考、行动和观察闭环。
 2. **工具调用**：让模型查询外部实时信息并处理工具结果。
 3. **提示词与动作协议**：约束模型输出为可解析的结构。
-4. **上下文与记忆**：维护多轮任务状态和历史信息。
+4. **上下文与基础记忆**：维护多轮任务状态和历史信息。
 5. **规划与反思**：处理更复杂的多步骤任务并修正执行策略。
 6. **多智能体协作**：让不同角色的 Agent 分工完成任务。
 7. **自建框架与接口扩展**：统一模型、Agent 和工具接口，并通过继承实现定制能力。
-8. **评估与工程化**：增加测试、日志、监控和质量评估。
+8. **长期记忆与 RAG**：持久化用户经历，并从外部知识库检索证据增强回答。
+9. **评估与工程化**：增加测试、日志、监控和质量评估。
 
 项目列表只登记已经提供可审阅代码与独立文档的实践，并通过状态栏如实标记完整性和验证范围。
 
@@ -354,7 +379,7 @@ hello-agent/
         ├── prompt_cn.py                   # 中文角色提示词
         ├── structured_output_cn.py        # Pydantic 结构化动作
         └── utils_cn.py                    # 主持人和游戏工具
-└── helloagent/
+├── helloagent/
     ├── README.md                          # 项目 07 架构、配置与运行说明
     ├── helloagentLLM.py                   # 原生 HelloAgents 快速体验
     ├── main.py                            # 自定义 LLM 调用模板
@@ -365,6 +390,12 @@ hello-agent/
     ├── my_plan_solve_agent.py             # Plan-and-Solve 范式
     ├── my_calculator_tool.py              # AST 计算工具
     └── my_advanced_search.py              # Tavily/SerpApi 多源搜索
+└── helloagent_08/
+    ├── README.md                          # 项目 08 记忆、RAG 与应用说明
+    ├── memory.py                          # Memory + RAG Agent 示例
+    ├── memory_eg.py                       # MemoryTool 基础示例
+    ├── RAG_eg.py                          # RAGTool 基础示例
+    └── QA_Assistant.py                    # Gradio PDF 学习助手
 ```
 
 ## 快速开始
@@ -527,6 +558,29 @@ G:\conda_envs\agent\python.exe .\test_plan_solve_agent.py
 完整的架构、配置、工具说明、验证范围和上传检查请查看
 [项目 07 独立文档](helloagent/README.md)。
 
+运行项目 08 前，安装本章对应的记忆、检索和界面依赖：
+
+```powershell
+cd G:\AI\hello-agent\helloagent_08
+G:\conda_envs\agent\python.exe -m pip install `
+  "hello-agents[all]==0.2.8" `
+  "gradio==4.44.1" `
+  "python-dotenv>=1.0.0"
+```
+
+在本地 `helloagent_08/.env` 配置 LLM、Embedding、Qdrant 和 Neo4j。基础示例与综合
+应用的运行命令如下：
+
+```powershell
+G:\conda_envs\agent\python.exe .\memory_eg.py
+G:\conda_envs\agent\python.exe .\RAG_eg.py
+G:\conda_envs\agent\python.exe .\memory.py
+G:\conda_envs\agent\python.exe .\QA_Assistant.py
+```
+
+Web 应用默认访问 `http://127.0.0.1:7860`。完整的架构、数据库配置、使用流程、验证
+范围和上传清单请查看[项目 08 独立文档](helloagent_08/README.md)。
+
 ## 文档组织规范
 
 为了让后续项目保持一致，文档采用以下规则：
@@ -579,7 +633,7 @@ G:\conda_envs\agent\python.exe .\test_plan_solve_agent.py
 > [!CAUTION]
 > 不要将真实 API Key 上传到公开 GitHub 仓库。
 
-项目 01 使用本地 `config.py` 保存密钥，项目 04、项目 06 和项目 07 使用本地 `.env`
+项目 01 使用本地 `config.py` 保存密钥，项目 04、项目 06、项目 07 和项目 08 使用本地 `.env`
 保存密钥；这些文件都必须被 `.gitignore` 排除。GitHub 中只保留不含真实密钥的配置
 模板或 README 配置说明。
 
@@ -597,6 +651,7 @@ git status
 - `__pycache__/`
 - `.idea/`
 - 包含真实密钥的日志或截图
+- `memory_data/`、`*.db` 和学习报告等运行数据
 
 如果密钥曾经进入 Git 历史或公开页面，应立即在对应服务商控制台撤销并重新生成。
 
@@ -611,6 +666,7 @@ git status
 - [第四章：智能体经典范式构建](https://github.com/datawhalechina/hello-agents/blob/main/docs/chapter4/%E7%AC%AC%E5%9B%9B%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E7%BB%8F%E5%85%B8%E8%8C%83%E5%BC%8F%E6%9E%84%E5%BB%BA.md)
 - [第六章：框架开发实践](https://github.com/datawhalechina/hello-agents/blob/main/docs/chapter6/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5.md)
 - [第七章：构建你的智能体框架](https://github.com/datawhalechina/hello-agents/blob/main/docs/chapter7/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E4%BD%A0%E7%9A%84Agent%E6%A1%86%E6%9E%B6.md)
+- [第八章：记忆与检索](https://github.com/datawhalechina/hello-agents/blob/main/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md)
 - [OpenAI Python SDK](https://github.com/openai/openai-python)
 - [Tavily Python SDK](https://docs.tavily.com/sdk/python/quick-start)
 
