@@ -1,0 +1,56 @@
+=== LINE COUNT ===
+  CodebaseMaintainer.py: 544 lines
+  context_builder_agent.py: 108 lines
+  context_builder_base.py: 103 lines
+  notetoll_builder.py: 277 lines
+=== TODO/FIXME ===
+  CodebaseMaintainer.py:375: - 考虑使用 grep 查找潜在问题（TODO, FIXME, BUG）
+=== BARE EXCEPT ===
+  CodebaseMaintainer.py:467: except:
+=== EXCEPT EXCEPTION ===
+  CodebaseMaintainer.py:77: except Exception as exc:
+  CodebaseMaintainer.py:290: except Exception as e:
+  CodebaseMaintainer.py:313: except Exception:
+  notetoll_builder.py:113: except Exception as e:
+  notetoll_builder.py:125: except Exception:
+  notetoll_builder.py:155: except Exception:
+  notetoll_builder.py:160: except Exception:
+  notetoll_builder.py:207: except Exception as e:
+=== CLASSES ===
+  CodebaseMaintainer.py: class CompatibleTerminalTool(TerminalTool):
+  CodebaseMaintainer.py: class CodebaseMaintainer:
+  context_builder_agent.py: class ContextAwareAgent(SimpleAgent):
+  notetoll_builder.py: class ProjectAssistant(SimpleAgent):
+=== FUNCTIONS ===
+  CodebaseMaintainer.py: def _decode_output(data: bytes) -> str:
+  CodebaseMaintainer.py: def _execute_command(self, command: str) -> str:
+  CodebaseMaintainer.py: def __init__(
+  CodebaseMaintainer.py: def run(self, user_input: str, mode: str = "auto") -> str:
+  CodebaseMaintainer.py: def _build_base_system_prompt(self) -> str:
+  CodebaseMaintainer.py: def _track_tool_usage(self):
+  CodebaseMaintainer.py: def _retrieve_relevant_notes(self, query: str, limit: int = 3) -> List[Dict]:
+  CodebaseMaintainer.py: def _normalize_note_results(self, result: Any) -> List[Dict]:
+  CodebaseMaintainer.py: def _notes_to_packets(self, notes: List[Dict]) -> List[ContextPacket]:
+  CodebaseMaintainer.py: def _build_system_instructions(self, mode: str) -> str:
+  CodebaseMaintainer.py: def _update_history(self, user_input: str, response: str):
+  CodebaseMaintainer.py: def explore(self, target: str = ".") -> str:
+  CodebaseMaintainer.py: def analyze(self, focus: str = "") -> str:
+  CodebaseMaintainer.py: def plan_next_steps(self) -> str:
+  CodebaseMaintainer.py: def execute_command(self, command: str) -> str:
+  CodebaseMaintainer.py: def create_note(
+  CodebaseMaintainer.py: def get_stats(self) -> Dict[str, Any]:
+  CodebaseMaintainer.py: def generate_report(self, save_to_file: bool = True) -> Dict[str, Any]:
+  CodebaseMaintainer.py: def main():
+  context_builder_agent.py: def __init__(self, name: str, llm: HelloAgentsLLM, **kwargs):
+  context_builder_agent.py: def run(self, user_input: str) -> str:
+  context_builder_agent.py: def main():
+  context_builder_base.py: def main():
+  notetoll_builder.py: def __init__(self, name: str, project_name: str, **kwargs):
+  notetoll_builder.py: def run(self, user_input: str, note_as_action: bool = False) -> str:
+  notetoll_builder.py: def _retrieve_relevant_notes(self, query: str, limit: int = 3) -> List[Dict]:
+  notetoll_builder.py: def _ensure_list_of_dicts(self, data) -> List[Dict]:
+  notetoll_builder.py: def _notes_to_packets(self, notes: List[Dict]) -> List[ContextPacket]:
+  notetoll_builder.py: def _save_as_note(self, user_input: str, response: str):
+  notetoll_builder.py: def _build_system_instructions(self) -> str:
+  notetoll_builder.py: def _update_history(self, user_input: str, response: str):
+  notetoll_builder.py: def main():

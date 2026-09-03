@@ -1,7 +1,7 @@
 # Hello Agent：从零构建智能体实践集
 
 ![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?logo=python&logoColor=white)
-![Projects](https://img.shields.io/badge/Projects-10-blueviolet)
+![Projects](https://img.shields.io/badge/Projects-12-blueviolet)
 ![Status](https://img.shields.io/badge/Status-In%20Progress-orange)
 ![Learning](https://img.shields.io/badge/Type-Agent%20Learning-brightgreen)
 
@@ -10,7 +10,7 @@
 仓库以 Datawhale [Hello-Agents](https://github.com/datawhalechina/hello-agents) 教程为主要学习参考，将章节中的核心示例整理为结构清晰、可以独立运行的项目。每个项目均配有单独的 Markdown 文档，介绍其学习目标、工作原理、代码结构、配置方法、运行示例和常见问题。
 
 > [!NOTE]
-> 本仓库是个人学习与工程实践项目，不是 Hello-Agents 官方代码仓库。当前已整理项目 01、项目 02 及其增强版本、项目 03 的 Transformer 与本地模型实践、项目 04 的经典智能体范式及增强实现、项目 06 的 AutoGen、AgentScope、CAMEL 与 LangGraph 框架实践、项目 07 的 HelloAgents 自定义框架扩展，以及项目 08 的记忆、RAG 与 PDF 学习助手。后续内容将随着学习进度持续补充。
+> 本仓库是个人学习与工程实践项目，不是 Hello-Agents 官方代码仓库。当前已整理项目 01、项目 02 及其增强版本、项目 03 的 Transformer 与本地模型实践、项目 04 的经典智能体范式及增强实现、项目 06 的 AutoGen、AgentScope、CAMEL 与 LangGraph 框架实践、项目 07 的 HelloAgents 自定义框架扩展、项目 08 的记忆与检索、项目 09 的上下文工程，以及项目 10 的 MCP、A2A 与 ANP 智能体通信协议实践。后续内容将随着学习进度持续补充。
 
 ## 文档导航
 
@@ -23,6 +23,8 @@
 - [项目 06 简介](#项目-06-简介)
 - [项目 07 简介](#项目-07-简介)
 - [项目 08 简介](#项目-08-简介)
+- [项目 09 简介](#项目-09-简介)
+- [项目 10 简介](#项目-10-简介)
 - [整体学习路径](#整体学习路径)
 - [仓库结构](#仓库结构)
 - [快速开始](#快速开始)
@@ -67,6 +69,10 @@ flowchart TD
     P7 --> R7["统一模型接口、四种 Agent 范式与工具系统"]
     D --> P8["helloagent_08<br/>记忆与检索"]
     P8 --> R8["Memory、RAG 与 PDF 学习助手"]
+    D --> P9["helloagent_09<br/>上下文工程"]
+    P9 --> R9["GSSC、结构化笔记与代码库维护助手"]
+    D --> P10["helloagent_10<br/>智能体通信协议"]
+    P10 --> R10["MCP、A2A 1.0 与 ANP"]
     D -.-> PN["后续 Agent 项目"]
 ```
 
@@ -84,6 +90,8 @@ flowchart TD
 | 06 | 框架开发实践 | AutoGen、AgentScope、CAMEL、LangGraph、多智能体协作与状态图编排 | 🟡 代码与离线检查已完成 | [查看项目 06 文档索引](#项目-06-简介) |
 | 07 | 自定义智能体框架扩展 | HelloAgentsLLM、SimpleAgent、ReAct、Reflection、Plan-and-Solve 与工具注册 | 🟡 教学实现与离线检查已完成 | [查看项目 07 文档](helloagent/README.md) |
 | 08 | 记忆与检索 | MemoryTool、RAGTool、Qdrant、Neo4j、MQE、HyDE 与 PDF 学习助手 | 🟡 语法与界面构建已验证 | [查看项目 08 文档](helloagent_08/README.md) |
+| 09 | 上下文工程 | GSSC、ContextBuilder、NoteTool、TerminalTool 与长程代码库维护助手 | 🟡 核心语法与终端编码已验证 | [查看项目 09 文档](helloagent_09/README.md) |
+| 10 | 智能体通信协议 | MCP 工具接入、A2A 1.0 点对点协作与 ANP 服务发现 | ✅ 核心 MCP/A2A 链路已验证 | [查看项目 10 文档](helloagent_10/README.md) |
 
 后续项目将在具备可审阅代码和独立文档后加入此表；状态栏会区分完整实现与仍含待补全部分的教学实现。
 
@@ -295,6 +303,43 @@ RAG 和 PDF 问答仍依赖本地配置的模型、Embedding、Qdrant、Neo4j �
 
 > [项目 08：记忆系统、RAG 与智能 PDF 学习助手](helloagent_08/README.md)
 
+## 项目 09 简介
+
+### 上下文工程与长程代码库维护助手
+
+第九个项目对应 Hello-Agents 第九章“上下文工程”，关注如何在有限上下文窗口中动态汇集、
+筛选、组织和压缩高价值信息。当前实现包含四个逐步递进的示例：
+
+- 使用 `ContextBuilder` 构造系统指令、当前任务和对话历史组成的结构化上下文。
+- 将 GSSC 上下文流水线集成到 `SimpleAgent`，支持连续两轮上下文感知问答。
+- 使用 `NoteTool` 记录项目状态、阻塞问题、行动计划与阶段性结论。
+- 使用 `FunctionCallAgent`、`TerminalTool`、`NoteTool` 和 `MemoryTool` 构建代码库维护助手。
+
+综合示例已经增加目标路径校验，并通过兼容 UTF-8、GBK/GB18030 的子进程输出读取解决
+Windows 解码异常。四个核心 Python 文件均通过语法检查，终端编码完成离线断言验证；
+在线模型行为、笔记返回格式兼容性和长时程稳定性仍取决于本地服务与框架版本。
+
+> [项目 09：上下文工程与长程代码库维护助手](helloagent_09/README.md)
+
+## 项目 10 简介
+
+### MCP、A2A 与 ANP 智能体通信协议
+
+第十个项目对应 Hello-Agents 第十章“智能体通信协议”，从三个不同通信层级扩展智能体
+系统：MCP 负责 Agent 与工具之间的标准化交互，A2A 负责智能体之间的点对点消息与任务
+协作，ANP 负责大规模智能体网络中的服务注册、发现和路由。
+
+当前目录包含天气 MCP Server、GitHub MCP、文档协作、ANP 计算节点调度，以及两个基于
+`a2a-sdk 1.1.2` 重写的 A2A 1.0 案例。计算器 Agent 和多专家客服使用 Agent Card
+公布能力，通过 JSON-RPC 交换消息，并使用 Starlette 与 Uvicorn 提供服务，不再依赖旧版
+Flask A2A 兼容层。
+
+九个 Python 文件均已通过语法检查；天气 MCP 的 Stdio 调用、A2A 计算器、客服规则路由
+和 LLM 工具适配器已经完成核心链路验证。GitHub 与文件系统 MCP 示例还需要 Node.js、
+`npx`、GitHub Token 和有效模型配置。
+
+> [项目 10：MCP、A2A 与 ANP 智能体通信协议](helloagent_10/README.md)
+
 ## 整体学习路径
 
 当前学习路径从最小可运行 Agent 开始，后续逐步扩展复杂能力：
@@ -307,7 +352,9 @@ RAG 和 PDF 问答仍依赖本地配置的模型、Embedding、Qdrant、Neo4j �
 6. **多智能体协作**：让不同角色的 Agent 分工完成任务。
 7. **自建框架与接口扩展**：统一模型、Agent 和工具接口，并通过继承实现定制能力。
 8. **长期记忆与 RAG**：持久化用户经历，并从外部知识库检索证据增强回答。
-9. **评估与工程化**：增加测试、日志、监控和质量评估。
+9. **上下文工程**：通过 GSSC、即时检索和结构化笔记提高长程任务的信息密度与连贯性。
+10. **智能体通信协议**：通过 MCP、A2A 与 ANP 连接工具、协作 Agent 和动态服务网络。
+11. **评估与工程化**：增加测试、日志、监控和质量评估。
 
 项目列表只登记已经提供可审阅代码与独立文档的实践，并通过状态栏如实标记完整性和验证范围。
 
@@ -390,12 +437,29 @@ hello-agent/
     ├── my_plan_solve_agent.py             # Plan-and-Solve 范式
     ├── my_calculator_tool.py              # AST 计算工具
     └── my_advanced_search.py              # Tavily/SerpApi 多源搜索
-└── helloagent_08/
+├── helloagent_08/
     ├── README.md                          # 项目 08 记忆、RAG 与应用说明
     ├── memory.py                          # Memory + RAG Agent 示例
     ├── memory_eg.py                       # MemoryTool 基础示例
     ├── RAG_eg.py                          # RAGTool 基础示例
     └── QA_Assistant.py                    # Gradio PDF 学习助手
+├── helloagent_09/
+    ├── README.md                          # 项目 09 上下文工程独立文档
+    ├── context_builder_base.py            # ContextBuilder 基础示例
+    ├── context_builder_agent.py           # 上下文感知 Agent
+    ├── notetoll_builder.py                # NoteTool + ContextBuilder 项目助手
+    └── CodebaseMaintainer.py              # 长程代码库维护综合示例
+└── helloagent_10/
+    ├── README.md                          # 项目 10 通信协议独立文档
+    ├── mcp_a2a_anp.py                     # MCP、A2A、ANP 统一接口示例
+    ├── github_mcp.py                      # GitHub MCP 搜索
+    ├── mcp_weather_server.py              # 天气 MCP Server
+    ├── test_weather.py                    # 天气 MCP 客户端测试
+    ├── weather_agent.py                   # MCP 天气 Agent
+    ├── simpleA2AAgent.py                  # A2A 1.0 计算器 Agent
+    ├── customer.py                        # A2A 1.0 多专家客服
+    ├── ANPtask.py                         # ANP 计算节点调度
+    └── Documentassist.py                  # 多 Agent 文档助手
 ```
 
 ## 快速开始
@@ -581,6 +645,56 @@ G:\conda_envs\agent\python.exe .\QA_Assistant.py
 Web 应用默认访问 `http://127.0.0.1:7860`。完整的架构、数据库配置、使用流程、验证
 范围和上传清单请查看[项目 08 独立文档](helloagent_08/README.md)。
 
+运行项目 09 前，安装第九章推荐的框架版本：
+
+```powershell
+cd G:\AI\hello-agent\helloagent_09
+G:\conda_envs\agent\python.exe -m pip install `
+  "hello-agents[all]==0.2.8" `
+  "python-dotenv>=1.0.0"
+```
+
+在本地 `helloagent_09/.env` 配置模型 ID、API Key 和 OpenAI 兼容接口地址。四个示例的
+运行命令如下：
+
+```powershell
+G:\conda_envs\agent\python.exe .\context_builder_base.py
+G:\conda_envs\agent\python.exe .\context_builder_agent.py
+G:\conda_envs\agent\python.exe .\notetoll_builder.py
+G:\conda_envs\agent\python.exe .\CodebaseMaintainer.py
+```
+
+`CodebaseMaintainer.py` 会让模型自主调用终端工具，只应在可信且可恢复的测试代码库中运行。
+完整的架构、配置差异、已知限制、编码问题和上传清单请查看
+[项目 09 独立文档](helloagent_09/README.md)。
+
+运行项目 10 前，安装 MCP、A2A 与基础网络依赖：
+
+```powershell
+cd G:\AI\hello-agent\helloagent_10
+G:\conda_envs\agent\python.exe -m pip install `
+  "hello-agents==0.2.2" `
+  "fastmcp==2.12.5" `
+  "mcp==1.16.0" `
+  "a2a-sdk[http-server]>=1.0,<2" `
+  "uvicorn>=0.30" `
+  "starlette>=0.37" `
+  "requests>=2.31" `
+  "python-dotenv>=1.0"
+```
+
+优先运行不需要 LLM 的三个核心示例：
+
+```powershell
+G:\conda_envs\agent\python.exe .\test_weather.py
+G:\conda_envs\agent\python.exe .\simpleA2AAgent.py
+G:\conda_envs\agent\python.exe .\customer.py
+```
+
+`weather_agent.py`、`ANPtask.py` 和 `Documentassist.py` 需要有效模型配置；GitHub 与文件
+系统 MCP 还要求 Node.js 和 `npx`。完整协议对比、配置、运行方式和上传清单请查看
+[项目 10 独立文档](helloagent_10/README.md)。
+
 ## 文档组织规范
 
 为了让后续项目保持一致，文档采用以下规则：
@@ -633,7 +747,7 @@ Web 应用默认访问 `http://127.0.0.1:7860`。完整的架构、数据库配�
 > [!CAUTION]
 > 不要将真实 API Key 上传到公开 GitHub 仓库。
 
-项目 01 使用本地 `config.py` 保存密钥，项目 04、项目 06、项目 07 和项目 08 使用本地 `.env`
+项目 01 使用本地 `config.py` 保存密钥，项目 04、项目 06、项目 07、项目 08、项目 09 和项目 10 使用本地 `.env`
 保存密钥；这些文件都必须被 `.gitignore` 排除。GitHub 中只保留不含真实密钥的配置
 模板或 README 配置说明。
 
@@ -651,7 +765,7 @@ git status
 - `__pycache__/`
 - `.idea/`
 - 包含真实密钥的日志或截图
-- `memory_data/`、`*.db` 和学习报告等运行数据
+- `memory_data/`、`*_notes/`、`*.db`、会话报告和学习报告等运行数据
 
 如果密钥曾经进入 Git 历史或公开页面，应立即在对应服务商控制台撤销并重新生成。
 
@@ -667,6 +781,8 @@ git status
 - [第六章：框架开发实践](https://github.com/datawhalechina/hello-agents/blob/main/docs/chapter6/%E7%AC%AC%E5%85%AD%E7%AB%A0%20%E6%A1%86%E6%9E%B6%E5%BC%80%E5%8F%91%E5%AE%9E%E8%B7%B5.md)
 - [第七章：构建你的智能体框架](https://github.com/datawhalechina/hello-agents/blob/main/docs/chapter7/%E7%AC%AC%E4%B8%83%E7%AB%A0%20%E6%9E%84%E5%BB%BA%E4%BD%A0%E7%9A%84Agent%E6%A1%86%E6%9E%B6.md)
 - [第八章：记忆与检索](https://github.com/datawhalechina/hello-agents/blob/main/docs/chapter8/%E7%AC%AC%E5%85%AB%E7%AB%A0%20%E8%AE%B0%E5%BF%86%E4%B8%8E%E6%A3%80%E7%B4%A2.md)
+- [第九章：上下文工程](https://github.com/datawhalechina/hello-agents/blob/main/docs/chapter9/%E7%AC%AC%E4%B9%9D%E7%AB%A0%20%E4%B8%8A%E4%B8%8B%E6%96%87%E5%B7%A5%E7%A8%8B.md)
+- [第十章：智能体通信协议](https://github.com/datawhalechina/hello-agents/blob/main/docs/chapter10/%E7%AC%AC%E5%8D%81%E7%AB%A0%20%E6%99%BA%E8%83%BD%E4%BD%93%E9%80%9A%E4%BF%A1%E5%8D%8F%E8%AE%AE.md)
 - [OpenAI Python SDK](https://github.com/openai/openai-python)
 - [Tavily Python SDK](https://docs.tavily.com/sdk/python/quick-start)
 
